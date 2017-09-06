@@ -511,7 +511,7 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Enefarm
   metroPackageVersion: 
-  metroCertificatePath: C:\Users\admin\Documents\git\tsuruoka\master\hololens_01\Enefarm\Assets\WSATestCertificate.pfx
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany
   metroCertificateIssuer: DefaultCompany
