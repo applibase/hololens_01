@@ -511,11 +511,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Enefarm
   metroPackageVersion: 
-  metroCertificatePath: 
+  metroCertificatePath: C:\Users\admin\Documents\git\tsuruoka\master\hololens_01\Enefarm\Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 00c4a4c1cd45d401
   metroApplicationDescription: Enefarm
   wsaImages: {}
   metroTileShortName: 
@@ -533,7 +533,7 @@ PlayerSettings:
   platformCapabilities:
     WindowsStoreApps:
       InternetClient: False
-      Microphone: False
+      Microphone: True
       SpatialPerception: True
       WebCam: False
   metroFTAName: 
