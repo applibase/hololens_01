@@ -7,8 +7,8 @@ using System;
 public class AdjustTapEvent : MonoBehaviour, IInputClickHandler
 {
     public void OnInputClicked(InputClickedEventData eventData)
-    {
-        Debug.Log("adjustボタンクリック");
+    {      
+        Adjust();
     }
 
     // Use this for initialization
@@ -19,5 +19,11 @@ public class AdjustTapEvent : MonoBehaviour, IInputClickHandler
 	// Update is called once per frame
 	void Update () {
 		
+
 	}
+
+    public void Adjust()
+    {
+        Debug.Log("adjust");
+    }
 }

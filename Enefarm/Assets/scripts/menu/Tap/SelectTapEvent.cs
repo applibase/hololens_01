@@ -8,7 +8,7 @@ public class SelectTapEvent : MonoBehaviour, IInputClickHandler
 {
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        Debug.Log("Selectボタンクリック");
+        Select();
     }
 
     // Use this for initialization
@@ -20,4 +20,9 @@ public class SelectTapEvent : MonoBehaviour, IInputClickHandler
 	void Update () {
 		
 	}
+
+    public void Select()
+    {
+        Debug.Log("Select");
+    }
 }

@@ -12,6 +12,8 @@ public class TargetObjectManager : MonoBehaviour
     [System.NonSerialized]
     private GameObject targetObj;
 
+    public float initialPositionZ;
+
     public GameObject Target
     {
         get
@@ -29,6 +31,8 @@ public class TargetObjectManager : MonoBehaviour
     {
 
         var pos = Camera.main.transform.forward;
+
+        pos.z = pos.z + initialPositionZ;
         targetObj = Instantiate(initialObj, pos, new Quaternion());
 
         var rigidbody = targetObj.GetComponent<Rigidbody>();
