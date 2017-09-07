@@ -3,15 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using HoloToolkit.Unity.SpatialMapping;
 
 public class MenuManager : MonoBehaviour, IInputClickHandler
 {
 
     public GameObject menu;
+    private RaycastHit hitInfo;
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        activeMenu();
+        var gameObject = GazeManager.Instance.HitObject;
+
+        if (gameObject == null)
+        {
+            activeMenu();
+        }
+        
     }
 
     // Use this for initialization
@@ -36,11 +44,12 @@ public class MenuManager : MonoBehaviour, IInputClickHandler
 
         if (dis >= 2.0f)
         {
-            float angle = 0.0F;
-            Vector3 axis = Vector3.zero;
+            var rotation = Camera.main.transform.rotation;
 
-            Camera.main.transform.rotation.ToAngleAxis(out angle, out axis);
-            menu.transform.rotation = Quaternion.AngleAxis(angle, axis);
+            rotation.x = menu.transform.rotation.x;
+            rotation.z = menu.transform.rotation.z;
+
+            menu.transform.rotation = rotation;
 
             var pos = Camera.main.transform.position;
             var forward = Camera.main.transform.forward;

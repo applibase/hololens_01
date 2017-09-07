@@ -33,7 +33,8 @@ public class ResetManager : MonoBehaviour {
             target.transform.position = pos + forward;
 
             var rotation = target.transform.rotation;
-            rotation.y = Camera.main.transform.rotation.y;
+
+            rotation.y = 0;
 
             target.transform.rotation = rotation;
 
