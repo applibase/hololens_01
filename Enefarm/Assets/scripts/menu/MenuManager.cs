@@ -3,15 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using HoloToolkit.Unity.SpatialMapping;
 
 public class MenuManager : MonoBehaviour, IInputClickHandler
 {
 
     public GameObject menu;
+    private RaycastHit hitInfo;
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        activeMenu();
+        var gameObject = GazeManager.Instance.HitObject;
+
+        if (gameObject == null)
+        {
+            activeMenu();
+        }
+        
     }
 
     // Use this for initialization
