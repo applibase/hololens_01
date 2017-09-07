@@ -1,23 +1,33 @@
-﻿using System.Collections;
+﻿using HoloToolkit.Unity.InputModule;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : MonoBehaviour, IInputClickHandler
 {
 
-    // Use this for initialization
-    void Start()
-    {
+    public GameObject menu;
 
+    public void OnInputClicked(InputClickedEventData eventData)
+    {
+        activeMenu();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Use this for initialization
+    void Start ()
     {
-        var pos = Camera.main.transform.position;
-        var forward = Camera.main.transform.forward;
+        InputManager.Instance.AddGlobalListener(gameObject);
+    }
+	
+	// Update is called once per frame
+	void Update () {
 
-        var menu = GameObject.Find("Menu");
+        if (!menu.activeSelf)
+        {
+            return;
+        }
+
         var cursor = GameObject.Find("DefaultCursor");
 
         Vector3 menuPos = menu.transform.position;
@@ -28,10 +38,25 @@ public class MenuManager : MonoBehaviour
         {
             float angle = 0.0F;
             Vector3 axis = Vector3.zero;
-            menu.transform.position = pos + forward;
+
             Camera.main.transform.rotation.ToAngleAxis(out angle, out axis);
             menu.transform.rotation = Quaternion.AngleAxis(angle, axis);
-        }
 
+            var pos = Camera.main.transform.position;
+            var forward = Camera.main.transform.forward;
+
+            menu.transform.position = pos + forward;
+        }
     }
+    
+    public void activeMenu()
+    {
+        if (!menu.activeSelf)
+        {
+            menu.SetActive(true);
+        }
+    }
+
+
+
 }

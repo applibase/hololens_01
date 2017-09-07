@@ -6,6 +6,7 @@ using System;
 
 public class ResetManager : MonoBehaviour {
 
+    public float resetPositionY;
     // Use this for initialization
     void Start () {
 		
@@ -27,7 +28,14 @@ public class ResetManager : MonoBehaviour {
             var pos = Camera.main.transform.position;
             var forward = Camera.main.transform.forward;
 
+            forward.y = resetPositionY;
+           
             target.transform.position = pos + forward;
+
+            var rotation = target.transform.rotation;
+            rotation.y = Camera.main.transform.rotation.y;
+
+            target.transform.rotation = rotation;
 
             var rigidbody = target.GetComponent<Rigidbody>();
 

@@ -8,7 +8,7 @@ public class EndTapEvent : MonoBehaviour,IInputClickHandler
 {
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        Debug.Log("Endボタンクリック");
+        End();
     }
 
     // Use this for initialization
@@ -20,4 +20,9 @@ public class EndTapEvent : MonoBehaviour,IInputClickHandler
 	void Update () {
 		
 	}
+
+    public void End()
+    {
+        Application.Quit();
+    }
 }

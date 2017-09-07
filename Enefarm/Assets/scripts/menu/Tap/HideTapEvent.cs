@@ -4,20 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class SelectSpeechEvent : MonoBehaviour, ISpeechHandler
+public class HideTapEvent : MonoBehaviour, IInputClickHandler
 {
+    public void OnInputClicked(InputClickedEventData eventData)
+    {
+        Hide();
+    }
+
     // Use this for initialization
     void Start () {
-        //InputManager.Instance.AddGlobalListener(gameObject);
-    }
+		
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
 
-    public void OnSpeechKeywordRecognized(SpeechKeywordRecognizedEventData eventData)
+    public void Hide()
     {
-        Debug.Log(eventData.RecognizedText);
+        var menu = GameObject.Find("Menu");
+        menu.SetActive(false);
     }
 }

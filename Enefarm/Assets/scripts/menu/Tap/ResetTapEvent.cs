@@ -8,8 +8,9 @@ public class ResetTapEvent : MonoBehaviour, IInputClickHandler
 {
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        Debug.Log("Resetボタンクリック");
-        GameObject.Find("ResetManager").GetComponent<ResetManager>().Reset();
+        //Debug.Log("Resetボタンクリック");
+        Reset();
+
     }
 
     // Use this for initialization
@@ -21,4 +22,11 @@ public class ResetTapEvent : MonoBehaviour, IInputClickHandler
 	void Update () {
 		
 	}
+
+    public void Reset()
+    {
+        var ResetManager = GameObject.Find("ResetManager");
+
+        ResetManager.GetComponent<ResetManager>().Reset();
+    }
 }
