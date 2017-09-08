@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce90eb04e690c6c439704345384dd3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textMesh: {fileID: 0}
 --- !u!4 &392760527
 Transform:
   m_ObjectHideFlags: 0
@@ -780,7 +781,7 @@ Prefab:
         type: 2}
       propertyPath: initialObj
       value: 
-      objectReference: {fileID: 1088865317106430, guid: 690636b276ded6140bbc7bb884823a85,
+      objectReference: {fileID: 1725349609020732, guid: 740d4c31fb4aa2c4981d806f9b4c39b1,
         type: 2}
     - target: {fileID: 114297614935861710, guid: 596a5f9c2e5a5db43837e7834723278e,
         type: 2}

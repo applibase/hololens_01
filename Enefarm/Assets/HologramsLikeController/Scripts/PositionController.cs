@@ -1,6 +1,8 @@
-﻿using HoloToolkit.Unity;
+﻿using System;
+using HoloToolkit.Unity;
 using HoloToolkit.Unity.InputModule;
 using UnityEngine;
+using HoloToolkit.Unity.SpatialMapping;
 
 namespace HologramsLikeController
 {
@@ -9,6 +11,7 @@ namespace HologramsLikeController
         // コントロール対象のGameObject
         public GameObject target;
         private Interpolator interpolator;
+        private Rigidbody rigidbody;
 
         public bool IsDraggingEnable = true;
         private bool isDragging;
@@ -24,6 +27,7 @@ namespace HologramsLikeController
         private IInputSource currentInputSource = null;
         private uint currentInputSourceId;
         private TextMesh textMesh;
+        private CManager cManager;
 
         private void OnEnable()
         {
@@ -31,6 +35,7 @@ namespace HologramsLikeController
             GameObject.Find("TextManager");
 
             textMesh = GameObject.Find("TextManager").GetComponent<TextManager>().textMesh;
+            cManager = target.GetComponent<CManager>();
 
             if (target == null)
             {
@@ -39,6 +44,9 @@ namespace HologramsLikeController
                 return;
 #endif
             }
+
+            rigidbody = target.GetComponent<Rigidbody>();
+            rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
             if (interpolator == null)
             {
@@ -92,65 +100,16 @@ namespace HologramsLikeController
             gazeAngularOffset = Quaternion.FromToRotation(handDirection, objDirection);
             draggingPosition = targetPosition;
 
+            rigidbody.useGravity = false;
+
         }
 
         public Vector3 beforePosition = Vector3.zero;
 
-        private bool isPause(Vector3 before, Vector3 current)
-        {
-
-            if (before == Vector3.zero)
-            {
-                return false;
-            }
-
-            var x = before.x - current.x;
-            var y = before.y - current.y;
-            var z = before.z - current.z;
-
-            if (x < 0)
-            {
-                x = x * (-1f);
-            }
-
-            if (y < 0)
-            {
-                y = y * (-1f);
-            }
-
-            if (z < 0)
-            {
-                z = z * (-1f);
-            }
-
-            if (x > 0.0004f || y > 0.0004f || z > 0.0004f)
-            {
-                return false;
-            }
-
-            Debug.Log("x = " + x);
-            Debug.Log("y = " + y);
-            Debug.Log("z = " + z);
-            return true;
-
-        }
-
         public void UpdatedDragging()
         {
-
-
-
             Vector3 newHandPosition;
             currentInputSource.TryGetPosition(currentInputSourceId, out newHandPosition);
-
-            if (isPause(beforePosition, newHandPosition))
-            {
-                textMesh.text = "Pause";
-            }
-            else
-            {
-                textMesh.text = "Update";
-            }
 
             Vector3 pivotPosition = GetHandPivotPosition();
 
@@ -168,19 +127,37 @@ namespace HologramsLikeController
 
             draggingPosition = pivotPosition + (targetDirection * targetDistance);
 
+            if (cManager.isCollision)
+            {
+                textMesh.text = "衝突中";
+
+                var p = (target.transform.position - draggingPosition).normalized;
+                rigidbody.AddForce(p * (-1f));
+                
+                return;
+            }
+
+            textMesh.text = "衝突なし";
+
+            //rigidbody.MovePosition(draggingPosition);
             interpolator.SetTargetPosition(draggingPosition);
-            beforePosition = newHandPosition;
+
+            beforePosition = draggingPosition;
         }
 
         public void StopDragging()
         {
             if (!isDragging)
                 return;
+            
             InputManager.Instance.PopModalInputHandler();
             isDragging = false;
             currentInputSource = null;
 
             textMesh.text = "Stop";
+
+            cManager.isCollision = false;
+            rigidbody.velocity = Vector3.zero;
         }
 
         private Vector3 GetHandPivotPosition()
@@ -221,6 +198,10 @@ namespace HologramsLikeController
             if (currentInputSource != null && eventData.SourceId == currentInputSourceId)
                 StopDragging();
         }
+
+
+
+
         #endregion
     }
 }

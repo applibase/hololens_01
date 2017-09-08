@@ -10,6 +10,9 @@ namespace HologramsLikeController {
             target.GetComponent<Collider>().enabled = true;
             // 親オブジェクトを無効化
             transformController.gameObject.SetActive(false);
+
+            target.GetComponent<Rigidbody>().useGravity = true;
+            
             // debug
             Debug.Log("TransformController disabled.");
         }

@@ -42,7 +42,8 @@ public class ResetManager : MonoBehaviour {
 
             if (rigidbody != null)
             {
-                rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                //rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                rigidbody.useGravity = false;
             }
             
         }
