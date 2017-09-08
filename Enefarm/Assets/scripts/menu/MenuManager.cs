@@ -9,7 +9,6 @@ public class MenuManager : MonoBehaviour, IInputClickHandler
 {
 
     public GameObject menu;
-    private RaycastHit hitInfo;
 
     public void OnInputClicked(InputClickedEventData eventData)
     {

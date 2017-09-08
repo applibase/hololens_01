@@ -2,8 +2,10 @@
 using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 
-namespace HologramsLikeController {
-    public class PositionController : MonoBehaviour, IInputHandler, ISourceStateHandler {
+namespace HologramsLikeController
+{
+    public class PositionController : MonoBehaviour, IInputHandler, ISourceStateHandler
+    {
         // コントロール対象のGameObject
         public GameObject target;
         private Interpolator interpolator;
@@ -21,22 +23,30 @@ namespace HologramsLikeController {
 
         private IInputSource currentInputSource = null;
         private uint currentInputSourceId;
+        private TextMesh textMesh;
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             target = transform.GetComponentInParent<TransformController>().Target;
+            GameObject.Find("TextManager");
 
-            if (target == null) {
+            textMesh = GameObject.Find("TextManager").GetComponent<TextManager>().textMesh;
+
+            if (target == null)
+            {
 #if UNITY_EDITOR
                 Debug.LogError("PositionController-OnEnable: target is not set.");
                 return;
 #endif
             }
 
-            if (interpolator == null) {
+            if (interpolator == null)
+            {
                 interpolator = target.GetComponent<Interpolator>();
             }
 
-            if (interpolator == null) {
+            if (interpolator == null)
+            {
 #if UNITY_EDITOR
                 Debug.LogError("PositionController-OnEnabled: Target object isn't attached Interpolator component.");
 #endif
@@ -45,17 +55,20 @@ namespace HologramsLikeController {
             mainCamera = Camera.main;
         }
 
-        private void Update() {
+        private void Update()
+        {
             if (IsDraggingEnable && isDragging)
                 UpdatedDragging();
         }
 
-        public void StartDragging() {
+        public void StartDragging()
+        {
             if (!IsDraggingEnable)
                 return;
             if (isDragging)
                 return;
 
+            textMesh.text = "Start";
             InputManager.Instance.PushModalInputHandler(gameObject);
             isDragging = true;
 
@@ -81,9 +94,63 @@ namespace HologramsLikeController {
 
         }
 
-        public void UpdatedDragging() {
+        public Vector3 beforePosition = Vector3.zero;
+
+        private bool isPause(Vector3 before, Vector3 current)
+        {
+
+            if (before == Vector3.zero)
+            {
+                return false;
+            }
+
+            var x = before.x - current.x;
+            var y = before.y - current.y;
+            var z = before.z - current.z;
+
+            if (x < 0)
+            {
+                x = x * (-1f);
+            }
+
+            if (y < 0)
+            {
+                y = y * (-1f);
+            }
+
+            if (z < 0)
+            {
+                z = z * (-1f);
+            }
+
+            if (x > 0.0004f || y > 0.0004f || z > 0.0004f)
+            {
+                return false;
+            }
+
+            Debug.Log("x = " + x);
+            Debug.Log("y = " + y);
+            Debug.Log("z = " + z);
+            return true;
+
+        }
+
+        public void UpdatedDragging()
+        {
+
+
+
             Vector3 newHandPosition;
             currentInputSource.TryGetPosition(currentInputSourceId, out newHandPosition);
+
+            if (isPause(beforePosition, newHandPosition))
+            {
+                textMesh.text = "Pause";
+            }
+            else
+            {
+                textMesh.text = "Update";
+            }
 
             Vector3 pivotPosition = GetHandPivotPosition();
 
@@ -95,34 +162,41 @@ namespace HologramsLikeController {
 
             float currentHandDistance = Vector3.Magnitude(newHandPosition - pivotPosition);
             float distanceRatio = currentHandDistance / handRefDistance;
-            float distanceOffset = distanceRatio > 0 ? 
+            float distanceOffset = distanceRatio > 0 ?
                 (distanceRatio - 1f) * TransformControlManager.Instance.distanceScale : 0;
             float targetDistance = objRefDistance + distanceOffset;
 
             draggingPosition = pivotPosition + (targetDirection * targetDistance);
 
             interpolator.SetTargetPosition(draggingPosition);
+            beforePosition = newHandPosition;
         }
 
-        public void StopDragging() {
+        public void StopDragging()
+        {
             if (!isDragging)
                 return;
             InputManager.Instance.PopModalInputHandler();
             isDragging = false;
             currentInputSource = null;
+
+            textMesh.text = "Stop";
         }
 
-        private Vector3 GetHandPivotPosition() {
+        private Vector3 GetHandPivotPosition()
+        {
             return mainCamera.transform.position + new Vector3(0, -0.2f, 0) - mainCamera.transform.forward * 0.2f;
         }
 
         #region IInputHandler
-        public void OnInputUp(InputEventData eventData) {
+        public void OnInputUp(InputEventData eventData)
+        {
             if (currentInputSource != null && eventData.SourceId == currentInputSourceId)
                 StopDragging();
         }
 
-        public void OnInputDown(InputEventData eventData) {
+        public void OnInputDown(InputEventData eventData)
+        {
             if (isDragging)
                 return;
 
@@ -137,11 +211,13 @@ namespace HologramsLikeController {
         #endregion
 
         #region ISourceStateHandler
-        public void OnSourceDetected(SourceStateEventData eventData) {
+        public void OnSourceDetected(SourceStateEventData eventData)
+        {
             // Nothing to do.
         }
 
-        public void OnSourceLost(SourceStateEventData eventData) {
+        public void OnSourceLost(SourceStateEventData eventData)
+        {
             if (currentInputSource != null && eventData.SourceId == currentInputSourceId)
                 StopDragging();
         }
