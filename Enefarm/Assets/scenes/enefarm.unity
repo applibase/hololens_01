@@ -204,7 +204,7 @@ MeshRenderer:
   m_GameObject: {fileID: 17431841}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -309,15 +309,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4963504451516146, guid: fa3d799c09a39f2409d5e8640c474590, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4661581278145552, guid: fa3d799c09a39f2409d5e8640c474590, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4827965754153798, guid: fa3d799c09a39f2409d5e8640c474590, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4472786359974130, guid: fa3d799c09a39f2409d5e8640c474590, type: 2}
       propertyPath: m_RootOrder
