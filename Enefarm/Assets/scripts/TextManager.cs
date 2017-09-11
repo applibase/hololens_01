@@ -51,5 +51,11 @@ public class TextManager : MonoBehaviour
 
         text.transform.position = position;
 
+        var rotation = Camera.main.transform.rotation;
+
+        rotation.x = text.transform.rotation.x;
+        rotation.z = text.transform.rotation.z;
+
+        text.transform.rotation = rotation;
     }
 }
