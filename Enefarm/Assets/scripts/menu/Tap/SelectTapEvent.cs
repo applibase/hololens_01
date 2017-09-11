@@ -6,11 +6,17 @@ using System;
 
 public class SelectTapEvent : MonoBehaviour, IInputClickHandler
 {
+    private SelectEvent select;
+
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        Select();
+        select.Select();
     }
 
+    private void OnEnable()
+    {
+        select = GameObject.Find("MenuManager").GetComponent<SelectEvent>();
+    }
     // Use this for initialization
     void Start () {
 		
@@ -21,8 +27,5 @@ public class SelectTapEvent : MonoBehaviour, IInputClickHandler
 		
 	}
 
-    public void Select()
-    {
-        Debug.Log("Select");
-    }
+    
 }

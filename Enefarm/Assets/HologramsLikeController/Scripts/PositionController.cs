@@ -11,7 +11,7 @@ namespace HologramsLikeController
         // コントロール対象のGameObject
         public GameObject target;
         private Interpolator interpolator;
-        private Rigidbody rigidbody;
+        private new Rigidbody rigidbody;
 
         public bool IsDraggingEnable = true;
         private bool isDragging;
@@ -27,15 +27,19 @@ namespace HologramsLikeController
         private IInputSource currentInputSource = null;
         private uint currentInputSourceId;
         private TextMesh textMesh;
-        private CManager cManager;
+        private ColliderManager colliderManager;
 
         private void OnEnable()
         {
             target = transform.GetComponentInParent<TransformController>().Target;
             GameObject.Find("TextManager");
 
-            textMesh = GameObject.Find("TextManager").GetComponent<TextManager>().textMesh;
-            cManager = target.GetComponent<CManager>();
+            if (GameObject.Find("TextManager") != null)
+            {
+                textMesh = GameObject.Find("TextManager").GetComponent<TextManager>().TextMesh;
+            }
+            
+            colliderManager = target.GetComponent<ColliderManager>();
 
             if (target == null)
             {
@@ -76,7 +80,11 @@ namespace HologramsLikeController
             if (isDragging)
                 return;
 
-            textMesh.text = "Start";
+            if (textMesh != null)
+            {
+                textMesh.text = "Start";
+            }
+
             InputManager.Instance.PushModalInputHandler(gameObject);
             isDragging = true;
 
@@ -127,17 +135,23 @@ namespace HologramsLikeController
 
             draggingPosition = pivotPosition + (targetDirection * targetDistance);
 
-            if (cManager.isCollision)
+            if (colliderManager.isCollision)
             {
-                textMesh.text = "衝突中";
-
+                if (textMesh != null)
+                {
+                    textMesh.text = "衝突中";
+                }
+        
                 var p = (target.transform.position - draggingPosition).normalized;
                 rigidbody.AddForce(p * (-1f));
                 
                 return;
             }
 
-            textMesh.text = "衝突なし";
+            if (textMesh != null)
+            {
+                textMesh.text = "衝突なし";
+            }
 
             //rigidbody.MovePosition(draggingPosition);
             interpolator.SetTargetPosition(draggingPosition);
@@ -154,9 +168,12 @@ namespace HologramsLikeController
             isDragging = false;
             currentInputSource = null;
 
-            textMesh.text = "Stop";
+            if (textMesh != null)
+            {
+                textMesh.text = "Stop";
+            }
 
-            cManager.isCollision = false;
+            colliderManager.isCollision = false;
             rigidbody.velocity = Vector3.zero;
         }
 

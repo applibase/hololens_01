@@ -6,11 +6,18 @@ using System;
 
 public class HideTapEvent : MonoBehaviour, IInputClickHandler
 {
+
+    private HideEvent hide;
+
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        Hide();
+        hide.Hide();
     }
 
+    private void OnEnable()
+    {
+        hide = GameObject.Find("MenuManager").GetComponent<HideEvent>();
+    }
     // Use this for initialization
     void Start () {
 		
@@ -21,9 +28,4 @@ public class HideTapEvent : MonoBehaviour, IInputClickHandler
 		
 	}
 
-    public void Hide()
-    {
-        var menu = GameObject.Find("Menu");
-        menu.SetActive(false);
-    }
 }

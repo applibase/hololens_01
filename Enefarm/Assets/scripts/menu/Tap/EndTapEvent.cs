@@ -6,9 +6,17 @@ using System;
 
 public class EndTapEvent : MonoBehaviour,IInputClickHandler
 {
+
+    private EndEvent end;
+
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        End();
+        end.End();
+    }
+
+    private void OnEnable()
+    {
+        end = GameObject.Find("MenuManager").GetComponent<EndEvent>();
     }
 
     // Use this for initialization
@@ -21,8 +29,5 @@ public class EndTapEvent : MonoBehaviour,IInputClickHandler
 		
 	}
 
-    public void End()
-    {
-        Application.Quit();
-    }
+   
 }

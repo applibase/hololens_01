@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CManager : MonoBehaviour
+public class ColliderManager : MonoBehaviour
 {
 
     private Vector3 collisionPosition = Vector3.zero;

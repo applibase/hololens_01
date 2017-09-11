@@ -2,21 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TextManager : MonoBehaviour {
+public class TextManager : MonoBehaviour
+{
 
-    public TextMesh textMesh;
+    private TextMesh textMesh;
     private GameObject text;
     private GameObject target;
 
-	// Use this for initialization
-	void Start () {
-  
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    public TextMesh TextMesh
+    {
 
-        if (text == null &&  GameObject.Find("3DTextPrefab") != null)
+        get
+        {
+
+            return textMesh;
+        }
+
+    }
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (text == null && GameObject.Find("3DTextPrefab") != null)
         {
             text = GameObject.Find("3DTextPrefab");
             textMesh = GameObject.Find("3DTextPrefab").GetComponent<TextMesh>();
@@ -35,8 +48,8 @@ public class TextManager : MonoBehaviour {
         var position = target.transform.position;
 
         position.y += 0.15f;
-        
+
         text.transform.position = position;
 
-	}
+    }
 }

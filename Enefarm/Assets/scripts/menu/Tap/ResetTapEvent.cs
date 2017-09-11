@@ -6,11 +6,18 @@ using System;
 
 public class ResetTapEvent : MonoBehaviour, IInputClickHandler
 {
+
+    private ResetEvent reset;
+
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        //Debug.Log("Resetボタンクリック");
-        Reset();
+        reset.Reset();
 
+    }
+
+    private void OnEnable()
+    {
+        reset = GameObject.Find("MenuManager").GetComponent<ResetEvent>();
     }
 
     // Use this for initialization
@@ -23,10 +30,5 @@ public class ResetTapEvent : MonoBehaviour, IInputClickHandler
 		
 	}
 
-    public void Reset()
-    {
-        var ResetManager = GameObject.Find("ResetManager");
 
-        ResetManager.GetComponent<ResetManager>().Reset();
-    }
 }

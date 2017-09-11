@@ -6,10 +6,10 @@ using System;
 
 public class AdjustTapEvent : MonoBehaviour, IInputClickHandler
 {
-    public void OnInputClicked(InputClickedEventData eventData)
-    {      
-        Adjust();
-    }
+
+    private AdJustEvent adjust;
+
+
 
     // Use this for initialization
     void Start () {
@@ -22,8 +22,15 @@ public class AdjustTapEvent : MonoBehaviour, IInputClickHandler
 
 	}
 
-    public void Adjust()
+    private void OnEnable()
     {
-        Debug.Log("adjust");
+        adjust = GameObject.Find("MenuManager").GetComponent<AdJustEvent>();
     }
+
+    public void OnInputClicked(InputClickedEventData eventData)
+    {
+        adjust.Adjust();
+    }
+
+
 }
