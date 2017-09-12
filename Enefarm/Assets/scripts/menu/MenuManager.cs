@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour, IInputClickHandler
     {
         var gameObject = GazeManager.Instance.HitObject;
 
-        if (gameObject == null)
+        if (gameObject == null || gameObject.name.Contains("Surface"))
         {
             activeMenu();
         }
