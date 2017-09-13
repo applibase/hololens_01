@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace HologramsLikeController {
     public class TransformControllerCompletion : MonoBehaviour, IInputClickHandler {
+
+        public float correction;
+
         public void OnInputClicked(InputClickedEventData eventData) {
             Transform transformController = transform.parent;
             GameObject target = transformController.parent.gameObject;
@@ -12,6 +15,7 @@ namespace HologramsLikeController {
             transformController.gameObject.SetActive(false);
 
             target.GetComponent<Rigidbody>().useGravity = true;
+            GameObject.Find("ObjectManager").GetComponent<TargetObjectManager>().ChangeTarget();
             
             // debug
             Debug.Log("TransformController disabled.");
@@ -20,7 +24,7 @@ namespace HologramsLikeController {
         private void Start() {
             TransformController tc = transform.GetComponentInParent<TransformController>();
 
-            float posY = tc.PositionControlerScale.y;
+            float posY = tc.PositionControlerScale.y * correction;
 
             transform.localPosition = new Vector3(0, posY + TransformControlManager.Instance.completePanelPositionY, 0);
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 // TODO: エディタ上で見た目がわかるようにしたい
 namespace HologramsLikeController {
     public class PositionControlManager : MonoBehaviour {
+
         public GameObject cubeController;
 
         private void Start() {
@@ -24,6 +25,7 @@ namespace HologramsLikeController {
             cubeController.GetComponent<MeshRenderer>().sharedMaterial =
                 TransformControlManager.Instance.positionCubeMaterial;
             cubeController.SetActive(true);
-        }
+
+        } 
     }
 }

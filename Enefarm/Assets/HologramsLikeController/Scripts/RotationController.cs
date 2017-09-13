@@ -13,6 +13,8 @@ namespace HologramsLikeController {
         private IInputSource currentInputSource = null;
         private uint currentInputSourceId;
 
+        public float correctionRotation;
+
         public enum RotationAxis {
             x,
             y,

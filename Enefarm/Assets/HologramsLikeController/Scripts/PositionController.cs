@@ -2,7 +2,9 @@
 using HoloToolkit.Unity;
 using HoloToolkit.Unity.InputModule;
 using UnityEngine;
+using System.Collections.Generic;
 using HoloToolkit.Unity.SpatialMapping;
+using System.Linq;
 
 namespace HologramsLikeController
 {
@@ -11,7 +13,7 @@ namespace HologramsLikeController
         // コントロール対象のGameObject
         public GameObject target;
         private Interpolator interpolator;
-        private new Rigidbody rigidbody;
+        private Rigidbody rigidbody;
 
         public bool IsDraggingEnable = true;
         private bool isDragging;
@@ -29,6 +31,10 @@ namespace HologramsLikeController
         private TextMesh textMesh;
         private ColliderManager colliderManager;
 
+        private Renderer[] rotationRenderers;
+        private Renderer[] positionRenderers;
+        private Renderer[] completeRenderers;
+
         private void OnEnable()
         {
             target = transform.GetComponentInParent<TransformController>().Target;
@@ -38,7 +44,7 @@ namespace HologramsLikeController
             {
                 textMesh = GameObject.Find("TextManager").GetComponent<TextManager>().TextMesh;
             }
-            
+
             colliderManager = target.GetComponent<ColliderManager>();
 
             if (target == null)
@@ -64,13 +70,44 @@ namespace HologramsLikeController
 #endif
             }
 
+            initRenderer();
             mainCamera = Camera.main;
+        }
+
+        private void initRenderer()
+        {
+            var controller = target.transform.Find("TransformController").gameObject;
+            rotationRenderers = controller.transform.Find("RotationControlManager").GetComponentsInChildren<Renderer>();
+            positionRenderers = controller.transform.Find("PositionControlManager").GetComponentsInChildren<Renderer>();
+            completeRenderers = controller.transform.Find("Complete").GetComponentsInChildren<Renderer>();
+
+        }
+
+        private void changeRendererColor(Color color)
+        {
+            rotationRenderers.ToList().ForEach(r => r.material.SetColor("_EmissionColor", color));
+            completeRenderers.ToList().ForEach(r => r.material.SetColor("_EmissionColor", color));
+            positionRenderers.ToList().ForEach(r => r.material.SetColor("_LineColor", color));
+
         }
 
         private void Update()
         {
             if (IsDraggingEnable && isDragging)
+            {
                 UpdatedDragging();
+                return;
+            }
+
+            if (colliderManager.isCollision)
+            {
+                changeRendererColor(Color.red);
+                return;
+            }
+
+            changeRendererColor(Color.yellow);
+
+
         }
 
         public void StartDragging()
@@ -112,8 +149,6 @@ namespace HologramsLikeController
 
         }
 
-        public Vector3 beforePosition = Vector3.zero;
-
         public void UpdatedDragging()
         {
             Vector3 newHandPosition;
@@ -141,12 +176,16 @@ namespace HologramsLikeController
                 {
                     textMesh.text = "衝突中";
                 }
-        
+
                 var p = (target.transform.position - draggingPosition).normalized;
                 rigidbody.AddForce(p * (-1f));
-                
+
+                changeRendererColor(Color.red);
+
                 return;
             }
+
+            changeRendererColor(Color.blue);
 
             if (textMesh != null)
             {
@@ -156,14 +195,13 @@ namespace HologramsLikeController
             //rigidbody.MovePosition(draggingPosition);
             interpolator.SetTargetPosition(draggingPosition);
 
-            beforePosition = draggingPosition;
         }
 
         public void StopDragging()
         {
             if (!isDragging)
                 return;
-            
+
             InputManager.Instance.PopModalInputHandler();
             isDragging = false;
             currentInputSource = null;
@@ -173,8 +211,8 @@ namespace HologramsLikeController
                 textMesh.text = "Stop";
             }
 
-            colliderManager.isCollision = false;
             rigidbody.velocity = Vector3.zero;
+
         }
 
         private Vector3 GetHandPivotPosition()

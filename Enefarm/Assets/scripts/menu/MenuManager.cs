@@ -10,6 +10,8 @@ public class MenuManager : MonoBehaviour, IInputClickHandler
 
     public GameObject menu;
 
+    public float menuPositionScale;
+
     public void OnInputClicked(InputClickedEventData eventData)
     {
         var gameObject = GazeManager.Instance.HitObject;
@@ -18,17 +20,18 @@ public class MenuManager : MonoBehaviour, IInputClickHandler
         {
             activeMenu();
         }
-        
+
     }
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         InputManager.Instance.AddGlobalListener(gameObject);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         if (!menu.activeSelf)
         {
@@ -51,12 +54,17 @@ public class MenuManager : MonoBehaviour, IInputClickHandler
             menu.transform.rotation = rotation;
 
             var pos = Camera.main.transform.position;
+
             var forward = Camera.main.transform.forward;
 
+            if (menuPositionScale != 0f)
+            {
+                forward = Camera.main.transform.forward * menuPositionScale;
+            }
             menu.transform.position = pos + forward;
         }
     }
-    
+
     public void activeMenu()
     {
         if (!menu.activeSelf)
