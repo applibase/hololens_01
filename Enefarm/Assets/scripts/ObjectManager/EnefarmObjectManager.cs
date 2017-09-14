@@ -4,18 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TargetObjectManager : MonoBehaviour
+[System.Serializable]
+public class Enefarm
+{
+    public string name;
+    public GameObject changeObj;
+    public GameObject mainObj;
+    public float initialPositionZ;
+}
+
+public class EnefarmObjectManager : MonoBehaviour
 {
 
-    public GameObject initialObj;
-    public GameObject mainObj;
+    public Enefarm[] enefarms;
+
+    private GameObject changeObj;
+    private GameObject mainObj;
+    private float initialPositionZ;
 
     private GameObject changeTargetObj;
     private GameObject mainTargetObj;
 
     private Vector3 mainTargetScale;
 
-    public float initialPositionZ;
+
     private bool isChanged;
 
     public GameObject Target
@@ -34,18 +46,17 @@ public class TargetObjectManager : MonoBehaviour
 
     }
 
-    // Use this for initialization
-    void Start()
+    public void setTarget(GameObject mainObj,GameObject changeObj, float initialPositionZ)
+    {
+        this.mainObj = mainObj;
+        this.changeObj = changeObj;
+        this.initialPositionZ = initialPositionZ;
+    }
+
+    public void Create()
     {
         CreateChangeTarget();
         CreateMainTarget();
-      
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void CreateChangeTarget()
@@ -53,7 +64,7 @@ public class TargetObjectManager : MonoBehaviour
         var pos = Camera.main.transform.forward;
 
         pos.z = pos.z + initialPositionZ;
-        changeTargetObj = Instantiate(initialObj, pos, new Quaternion());
+        changeTargetObj = Instantiate(changeObj, pos, new Quaternion());
         changeTargetObj.name = "changedObj";
         var rigidbody = changeTargetObj.GetComponent<Rigidbody>();
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
@@ -76,7 +87,6 @@ public class TargetObjectManager : MonoBehaviour
         }
 
         mainTargetObj.SetActive(false);
-
         mainTargetScale = mainTargetObj.transform.Find("BatteryUnit").gameObject.transform.lossyScale;
     }
 

@@ -5,6 +5,7 @@ namespace HologramsLikeController {
     public class TransformControllerCompletion : MonoBehaviour, IInputClickHandler {
 
         public float correction;
+        private TargetObjectManager targetObjectManager;
 
         public void OnInputClicked(InputClickedEventData eventData) {
             Transform transformController = transform.parent;
@@ -12,10 +13,15 @@ namespace HologramsLikeController {
             // Cubeのレンダラーとコライダーを有効か
             target.GetComponent<Collider>().enabled = true;
             // 親オブジェクトを無効化
-            transformController.gameObject.SetActive(false);
 
+            if (targetObjectManager.mode == TargetMode.Other)
+            {
+                transformController.gameObject.SetActive(false);
+            }
+
+            targetObjectManager.Change();
             target.GetComponent<Rigidbody>().useGravity = true;
-            GameObject.Find("ObjectManager").GetComponent<TargetObjectManager>().ChangeTarget();
+            
             
             // debug
             Debug.Log("TransformController disabled.");
@@ -27,6 +33,7 @@ namespace HologramsLikeController {
             float posY = tc.PositionControlerScale.y * correction;
 
             transform.localPosition = new Vector3(0, posY + TransformControlManager.Instance.completePanelPositionY, 0);
+            targetObjectManager = GameObject.Find("ObjectManager").GetComponent<TargetObjectManager>();
         }
 
         private void Update() {

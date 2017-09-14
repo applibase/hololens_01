@@ -42,7 +42,7 @@ public class TextManager : MonoBehaviour
 
         if (target == null)
         {
-            target = GameObject.Find("ObjectManager").GetComponent<TargetObjectManager>().Target;
+            target = GameObject.Find("ObjectManager").GetComponent<EnefarmObjectManager>().Target;
         }
 
         var position = target.transform.position;

@@ -10,7 +10,7 @@ public class EnefarmTapEvent : MonoBehaviour,IInputClickHandler {
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        targetObjectManager.ChangeTarget();
+        targetObjectManager.Change();
     }
 
     private void OnEnable()

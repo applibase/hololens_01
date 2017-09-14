@@ -6,8 +6,7 @@ using System;
 
 public class ResetManager : MonoBehaviour {
 
-    public float resetPositionY;
-    public float resetPositionZ;
+    public float resetPositionZscale;
     // Use this for initialization
     void Start () {
 		
@@ -27,16 +26,13 @@ public class ResetManager : MonoBehaviour {
 
             if (objectManager.Target.name.Equals("mainObj"))
             {
-                objectManager.ChangeTarget();
+                objectManager.Change();
             }
 
             var target = objectManager.Target;
 
             var pos = Camera.main.transform.position;
-            var forward = Camera.main.transform.forward;
-
-            forward.y = resetPositionY;
-            forward.z = resetPositionZ;
+            var forward = Camera.main.transform.forward * resetPositionZscale;
             
             target.transform.position = pos + forward;
 
