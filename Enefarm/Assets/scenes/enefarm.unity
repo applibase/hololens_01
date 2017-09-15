@@ -696,6 +696,46 @@ Transform:
   m_PrefabParentObject: {fileID: 4405628541585128, guid: fa3d799c09a39f2409d5e8640c474590,
     type: 2}
   m_PrefabInternal: {fileID: 425390132}
+--- !u!1 &1362546203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1362546205}
+  - component: {fileID: 1362546204}
+  m_Layer: 8
+  m_Name: SelectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1362546204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1362546203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 356ce85db0a18b745a61fec0843a4c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1362546205
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1362546203}
+  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalPosition: {x: -0.2, y: 0, z: 1.5}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.024999999}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1422992464
 Prefab:
   m_ObjectHideFlags: 0
@@ -810,8 +850,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81079c2bbb1cbc34d9f498154a2c45b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
-  objName: Panasonic
+  mode: 1
+  objName: Heater
 --- !u!114 &1514960615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,12 +869,12 @@ MonoBehaviour:
     changeObj: {fileID: 1869486594828252, guid: 9967bcff37d234d46b420bbc087cdbff,
       type: 2}
     mainObj: {fileID: 1647737493298752, guid: a2812aec0f962584c96a52e55285dc6a, type: 2}
-    initialPositionZ: 1.5
+    initialPositionZScale: 2
   - name: Aisin
-    changeObj: {fileID: 1363959800769120, guid: 79e1ca1636ba8014b8f486f9396afa73,
+    changeObj: {fileID: 1869486594828252, guid: 9967bcff37d234d46b420bbc087cdbff,
       type: 2}
-    mainObj: {fileID: 1869486594828252, guid: 9967bcff37d234d46b420bbc087cdbff, type: 2}
-    initialPositionZ: 1.5
+    mainObj: {fileID: 1363959800769120, guid: 79e1ca1636ba8014b8f486f9396afa73, type: 2}
+    initialPositionZScale: 2
 --- !u!4 &1514960616
 Transform:
   m_ObjectHideFlags: 0
@@ -863,7 +903,7 @@ MonoBehaviour:
   others:
   - name: Heater
     mainObj: {fileID: 1184449376569956, guid: dc3769945e533d243801121e51835025, type: 2}
-    initialPositionZ: 1
+    initialPositionZScale: 1.8
 --- !u!1 &2139110886
 GameObject:
   m_ObjectHideFlags: 0

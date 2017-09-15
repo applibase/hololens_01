@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using HologramsLikeController;
 
 [System.Serializable]
 public class Enefarm
@@ -10,7 +11,7 @@ public class Enefarm
     public string name;
     public GameObject changeObj;
     public GameObject mainObj;
-    public float initialPositionZ;
+    public float initialPositionZScale;
 }
 
 public class EnefarmObjectManager : MonoBehaviour
@@ -20,7 +21,7 @@ public class EnefarmObjectManager : MonoBehaviour
 
     private GameObject changeObj;
     private GameObject mainObj;
-    private float initialPositionZ;
+    private float initialPositionZScale;
 
     private GameObject changeTargetObj;
     private GameObject mainTargetObj;
@@ -46,11 +47,23 @@ public class EnefarmObjectManager : MonoBehaviour
 
     }
 
-    public void setTarget(GameObject mainObj,GameObject changeObj, float initialPositionZ)
+    public float InitialPositionZScale
+    {
+        get
+        {
+
+            return initialPositionZScale;
+            
+
+        }
+
+    }
+
+    public void SetTarget(GameObject mainObj,GameObject changeObj, float initialPositionZScale)
     {
         this.mainObj = mainObj;
         this.changeObj = changeObj;
-        this.initialPositionZ = initialPositionZ;
+        this.initialPositionZScale = initialPositionZScale;
     }
 
     public void Create()
@@ -61,21 +74,29 @@ public class EnefarmObjectManager : MonoBehaviour
 
     private void CreateChangeTarget()
     {
-        var pos = Camera.main.transform.forward;
+        var pos = Camera.main.transform.position;
+        var forward = Camera.main.transform.forward;
 
-        pos.z = pos.z + initialPositionZ;
+        pos = pos +  forward * initialPositionZScale;
+
         changeTargetObj = Instantiate(changeObj, pos, new Quaternion());
         changeTargetObj.name = "changedObj";
+
+        changeTargetObj.transform.rotation = Quaternion.Euler(0, Camera.main.transform.localEulerAngles.y, 0);
+
         var rigidbody = changeTargetObj.GetComponent<Rigidbody>();
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
+        //changeTargetObj.GetComponentInChildren<PositionControlManager>().Active();
     }
 
     private void CreateMainTarget()
     {
-        var pos = Camera.main.transform.forward;
 
-        pos.z = pos.z + initialPositionZ;
+        var pos = Camera.main.transform.position;
+        var forward = Camera.main.transform.forward;
+        pos = pos + forward * initialPositionZScale;
+
         mainTargetObj = Instantiate(mainObj, pos, new Quaternion());
         mainTargetObj.name = "mainObj";
         var rigidbody = mainTargetObj.GetComponent<Rigidbody>();
@@ -85,6 +106,8 @@ public class EnefarmObjectManager : MonoBehaviour
             rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             rigidbody.useGravity = true;
         }
+
+        mainTargetObj.transform.rotation = Quaternion.Euler(0, Camera.main.transform.localEulerAngles.y, 0);
 
         mainTargetObj.SetActive(false);
         mainTargetScale = mainTargetObj.transform.Find("BatteryUnit").gameObject.transform.lossyScale;

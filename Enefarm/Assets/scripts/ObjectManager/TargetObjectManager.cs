@@ -31,7 +31,24 @@ public class TargetObjectManager : MonoBehaviour {
             }
 
         }
-    } 
+    }
+
+    public float InitialPositionZScale
+    {
+        get
+        {
+            switch (mode)
+            {
+                case TargetMode.Enefarm:
+                    return enefarmObjectManager.InitialPositionZScale;
+                case TargetMode.Other:
+                    return otherObjectManager.InitialPositionZScale;
+                default:
+                    return 0f;
+            }
+
+        }
+    }
 
     // Use this for initialization
     void Start () {
@@ -48,7 +65,7 @@ public class TargetObjectManager : MonoBehaviour {
 		
 	}
 
-    private void Create()
+    public void Create()
     {
         switch (mode)
         {
@@ -61,12 +78,16 @@ public class TargetObjectManager : MonoBehaviour {
 
                 if (enefarm == null)
                 {
-                    Debug.LogError("TargetObjectManager-Start: objNameに一致するEnefarmオブジェクトが見つかりません");
+                    Debug.LogError("TargetObjectManager-Start: objName = " + this.objName  + " に一致するEnefarmオブジェクトが見つかりません");
                     return;
                 }
 
-                enefarmObjectManager.setTarget(enefarm.mainObj, enefarm.changeObj, enefarm.initialPositionZ);
+                enefarmObjectManager.SetTarget(enefarm.mainObj, enefarm.changeObj, enefarm.initialPositionZScale);
+
                 enefarmObjectManager.Create();
+                enefarmObjectManager.Target.SetActive(false);
+                GameObject.Find("ResetManager").GetComponent<ResetManager>().Reset();
+                enefarmObjectManager.Target.SetActive(true);
 
                 return;
 
@@ -83,9 +104,12 @@ public class TargetObjectManager : MonoBehaviour {
                     return;
                 }
 
-                otherObjectManager.setTarget(other.mainObj,other.initialPositionZ);
+                otherObjectManager.setTarget(other.mainObj,other.initialPositionZScale);
                 otherObjectManager.Create();
 
+                otherObjectManager.Target.SetActive(false);
+                GameObject.Find("ResetManager").GetComponent<ResetManager>().Reset();
+                otherObjectManager.Target.SetActive(true);
                 return;
         }
 

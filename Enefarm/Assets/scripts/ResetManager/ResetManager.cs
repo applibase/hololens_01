@@ -6,7 +6,6 @@ using System;
 
 public class ResetManager : MonoBehaviour {
 
-    public float resetPositionZscale;
     // Use this for initialization
     void Start () {
 		
@@ -32,15 +31,20 @@ public class ResetManager : MonoBehaviour {
             var target = objectManager.Target;
 
             var pos = Camera.main.transform.position;
-            var forward = Camera.main.transform.forward * resetPositionZscale;
-            
+            var forward = Camera.main.transform.forward * objectManager.InitialPositionZScale;
             target.transform.position = pos + forward;
 
-            var rotation = target.transform.rotation;
+            target.transform.rotation = Quaternion.Euler(0, Camera.main.transform.localEulerAngles.y, 0);
 
-            rotation.y = 0;
+            if (target.transform.Find("TransformController") != null)
+            {
+                var controllCube = target.transform.Find("TransformController")
+                    .transform.Find("PositionControlManager")
+                    .transform.Find("ControlCube")
+                    .transform.gameObject;
 
-            target.transform.rotation = rotation;
+                controllCube.transform.rotation = Quaternion.Euler(0, Camera.main.transform.localEulerAngles.y, 0);
+            }
 
             var rigidbody = target.GetComponent<Rigidbody>();
 
@@ -52,6 +56,8 @@ public class ResetManager : MonoBehaviour {
             
         }
     }
+
+    
 
 
 }
