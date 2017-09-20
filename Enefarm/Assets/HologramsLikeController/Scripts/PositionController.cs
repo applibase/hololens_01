@@ -28,7 +28,6 @@ namespace HologramsLikeController
 
         private IInputSource currentInputSource = null;
         private uint currentInputSourceId;
-        private TextMesh textMesh;
         private ColliderManager colliderManager;
 
         private Renderer[] rotationRenderers;
@@ -39,11 +38,6 @@ namespace HologramsLikeController
         {
             target = transform.GetComponentInParent<TransformController>().Target;
             GameObject.Find("TextManager");
-
-            if (GameObject.Find("TextManager") != null)
-            {
-                textMesh = GameObject.Find("TextManager").GetComponent<TextManager>().TextMesh;
-            }
 
             colliderManager = target.GetComponent<ColliderManager>();
 
@@ -117,11 +111,6 @@ namespace HologramsLikeController
             if (isDragging)
                 return;
 
-            if (textMesh != null)
-            {
-                textMesh.text = "Start";
-            }
-
             InputManager.Instance.PushModalInputHandler(gameObject);
             isDragging = true;
 
@@ -172,10 +161,6 @@ namespace HologramsLikeController
 
             if (colliderManager.isCollision)
             {
-                if (textMesh != null)
-                {
-                    textMesh.text = "衝突中";
-                }
 
                 var p = (target.transform.position - draggingPosition).normalized;
                 rigidbody.AddForce(p * (-1f));
@@ -186,12 +171,6 @@ namespace HologramsLikeController
             }
 
             changeRendererColor(Color.blue);
-
-            if (textMesh != null)
-            {
-                textMesh.text = "衝突なし";
-            }
-
             //rigidbody.MovePosition(draggingPosition);
             interpolator.SetTargetPosition(draggingPosition);
 
@@ -205,11 +184,6 @@ namespace HologramsLikeController
             InputManager.Instance.PopModalInputHandler();
             isDragging = false;
             currentInputSource = null;
-
-            if (textMesh != null)
-            {
-                textMesh.text = "Stop";
-            }
 
             rigidbody.velocity = Vector3.zero;
 
