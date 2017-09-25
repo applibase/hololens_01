@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114498896321012306}
   - component: {fileID: 54982957344681532}
   m_Layer: 0
-  m_Name: Enefarm_Panasonic 1 1
+  m_Name: Enefarm_Panasonic 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
