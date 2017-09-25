@@ -642,7 +642,7 @@ MonoBehaviour:
   - name: Panasonic
     changeObj: {fileID: 1869486594828252, guid: 9967bcff37d234d46b420bbc087cdbff,
       type: 2}
-    mainObj: {fileID: 1854565334857690, guid: 1d4bf46a0c463474a9746f05d0f687f2, type: 2}
+    mainObj: {fileID: 1644226270593568, guid: 9c5eb45e7da36534dacbcee73a8830db, type: 2}
     initialPositionZScale: 2
   - name: Aisin
     changeObj: {fileID: 1869486594828252, guid: 9967bcff37d234d46b420bbc087cdbff,
