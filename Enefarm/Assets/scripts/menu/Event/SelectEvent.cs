@@ -152,28 +152,36 @@ public class SelectEvent : MonoBehaviour
                   .Where(child => !child.name.Equals("TransformController"))
                   .ToList();
 
-        if (childList.Count != 0)
+        if (childList.Count == 0)
         {
-            float cHight = 0f;
+            float high = gObj.transform.localScale.y;
+            float scale = selectScale / high;
 
-            childList.Select(child => child.transform.localScale.y)
-                     .ToList()
-                     .ForEach(childY =>
-                     {
-
-                         if (childY > cHight)
-                         {
-                             cHight = childY;
-                         }
-
-                     });
-
-            float cScale = selectScale / cHight;
-
-            var newCscale = new Vector3(x * cScale, y * cScale, z * cScale);
-            gObj.transform.localScale = newCscale;
+            var newScale = new Vector3(x * scale, y * scale, z * scale);
+            gObj.transform.localScale = newScale;
             return;
         }
+
+        float cHight = 0f;
+
+        childList.Select(child => child.transform.localScale.y)
+                 .ToList()
+                 .ForEach(childY =>
+                 {
+
+                     if (childY > cHight)
+                     {
+                         cHight = childY;
+                     }
+
+                 });
+
+        float cScale = selectScale / cHight;
+
+        var newCscale = new Vector3(x * cScale, y * cScale, z * cScale);
+        gObj.transform.localScale = newCscale;
+        return;
+
 
     }
 

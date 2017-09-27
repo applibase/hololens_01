@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -676,7 +676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   others:
   - name: Heater
-    mainObj: {fileID: 1184449376569956, guid: dc3769945e533d243801121e51835025, type: 2}
+    mainObj: {fileID: 1999116329861556, guid: a6aaa85bd5a83f54d9ef2bb3daedb274, type: 2}
     initialPositionZScale: 1.8
 --- !u!1001 &1860036641
 Prefab:
