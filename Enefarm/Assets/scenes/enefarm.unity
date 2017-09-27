@@ -645,9 +645,9 @@ MonoBehaviour:
     mainObj: {fileID: 1644226270593568, guid: 9c5eb45e7da36534dacbcee73a8830db, type: 2}
     initialPositionZScale: 2
   - name: Aisin
-    changeObj: {fileID: 1869486594828252, guid: 9967bcff37d234d46b420bbc087cdbff,
+    changeObj: {fileID: 1655222225642254, guid: b8d5d034e6020df4cbfb1b5852af9b36,
       type: 2}
-    mainObj: {fileID: 1363959800769120, guid: 79e1ca1636ba8014b8f486f9396afa73, type: 2}
+    mainObj: {fileID: 1693591699661458, guid: e22e8ad1f1d983542b28d5c8d22615a8, type: 2}
     initialPositionZScale: 2
 --- !u!4 &1514960616
 Transform:
@@ -676,7 +676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   others:
   - name: Heater
-    mainObj: {fileID: 1999116329861556, guid: a6aaa85bd5a83f54d9ef2bb3daedb274, type: 2}
+    mainObj: {fileID: 1085213896368818, guid: a6aaa85bd5a83f54d9ef2bb3daedb274, type: 2}
     initialPositionZScale: 1.8
 --- !u!1001 &1860036641
 Prefab:
