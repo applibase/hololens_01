@@ -10,6 +10,7 @@ public class SelectTapEvent : MonoBehaviour, IInputClickHandler
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
+        GameObject.Find("MenuManager").GetComponent<SelectEvent>().DeleteTargetObj();
         select.Select();
     }
 

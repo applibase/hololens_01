@@ -26,14 +26,14 @@ public class SelectManagerTap : MonoBehaviour, IInputClickHandler
                 try
                 {
                     int h = Int32.Parse(parent.name);
-                    GameObject.Find("MenuManager").GetComponent<SelectEvent>().DeleteTargetObj();
+                    
                     GameObject.Find("MenuManager").GetComponent<SelectEvent>().Create(h);
                     GameObject.Find("MenuManager").GetComponent<SelectEvent>().ParentObj.SetActive(false);
                 }
                 catch (FormatException e)
                 {
                     int h = Int32.Parse(gameObject.name);
-                    GameObject.Find("MenuManager").GetComponent<SelectEvent>().DeleteTargetObj();
+                    //GameObject.Find("MenuManager").GetComponent<SelectEvent>().DeleteTargetObj();
                     GameObject.Find("MenuManager").GetComponent<SelectEvent>().Create(h);
                     GameObject.Find("MenuManager").GetComponent<SelectEvent>().ParentObj.SetActive(false);
                 }
