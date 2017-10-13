@@ -87,7 +87,6 @@ public class EnefarmObjectManager : MonoBehaviour
         var rigidbody = changeTargetObj.GetComponent<Rigidbody>();
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
-        //changeTargetObj.GetComponentInChildren<PositionControlManager>().Active();
     }
 
     private void CreateMainTarget()

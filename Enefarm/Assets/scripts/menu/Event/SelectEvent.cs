@@ -26,39 +26,16 @@ public class SelectEvent : MonoBehaviour
         }
     }
 
-
-
     // Use this for initialization
 
 
     void Start()
     {
         hideEvent = GameObject.Find("MenuManager").GetComponent<HideEvent>();
-        Debug.Log("Select");
 
         getChosenObjPrefab();
-        CreateSelectParent();
-
-        var pos = Camera.main.transform.position + (Camera.main.transform.forward);
-
-        for (int h = 0; h < mainObjList.Count; h++)
-        {
-            GameObject chosenObj = Instantiate(mainObjList[h], pos, new Quaternion());
-            SetScale(chosenObj);
-            SetNameAndTag(chosenObj, h);
-
-            pos.x = pos.x + chosenObj.transform.lossyScale.x / 2f;
-            pos.x = pos.x + selectSpace;
-
-            var rigidbody = chosenObj.GetComponent<Rigidbody>();
-            rigidbody.useGravity = false;
-            rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-            rigidbody.isKinematic = true;
-
-            chosenObj.transform.parent = parentObj.transform;
-            selectObjList.Add(chosenObj);
-        }
-
+        CreateChoseObjParent();
+        CreateChoseObj();
         parentObj.SetActive(false);
         SortObj();
     }
@@ -74,7 +51,50 @@ public class SelectEvent : MonoBehaviour
 
     }
 
-    private void CreateSelectParent()
+    public void CreateTargetObj(int h)
+    {
+        var targetName = SelectCreateObj(h);
+        var targetObjectManager = GameObject.Find("ObjectManager").GetComponent<TargetObjectManager>();
+
+        targetObjectManager.objName = targetName;
+
+        targetObjectManager.Create();
+
+    }
+
+    public void DeleteTargetObj()
+    {
+        var dTargetObj = GameObject.Find("ObjectManager").GetComponent<TargetObjectManager>().Target;
+        Destroy(dTargetObj, 0f);
+    }
+
+    #region private
+
+    private void CreateChoseObj()
+    {
+        var pos = Camera.main.transform.position + (Camera.main.transform.forward);
+
+        for (int h = 0; h < mainObjList.Count; h++)
+        {
+            GameObject choseObj = Instantiate(mainObjList[h], pos, new Quaternion());
+            SetScale(choseObj);
+            SetNameAndTag(choseObj, h);
+
+            pos.x = pos.x + choseObj.transform.lossyScale.x / 2f;
+            pos.x = pos.x + selectSpace;
+
+            var rigidbody = choseObj.GetComponent<Rigidbody>();
+            rigidbody.useGravity = false;
+            rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            rigidbody.isKinematic = true;
+
+            choseObj.transform.parent = parentObj.transform;
+            selectObjList.Add(choseObj);
+        }
+
+    }
+
+    private void CreateChoseObjParent()
     {
         var pos = Camera.main.transform.position + (Camera.main.transform.forward);
         var parentObjPrefab = new GameObject("SelectParent");
@@ -107,6 +127,7 @@ public class SelectEvent : MonoBehaviour
     private void SortObj()
     {
         var x = selectObjList[selectObjList.Count - 1].transform.position.x / 2f;
+
         for (int i = 0; i < selectObjList.Count; i++)
         {
             var pos = selectObjList[i].transform.position;
@@ -116,8 +137,6 @@ public class SelectEvent : MonoBehaviour
         }
 
     }
-
-
 
     private void SetNameAndTag(GameObject gObj, int h)
     {
@@ -185,17 +204,6 @@ public class SelectEvent : MonoBehaviour
 
     }
 
-    public void Create(int h)
-    {
-        var targetName = SelectCreateObj(h);
-        var targetObjectManager = GameObject.Find("ObjectManager").GetComponent<TargetObjectManager>();
-
-        targetObjectManager.objName = targetName;
-
-        targetObjectManager.Create();
-
-    }
-
     private void ClearList()
     {
         this.mainObjList.Clear();
@@ -231,9 +239,6 @@ public class SelectEvent : MonoBehaviour
         return null;
     }
 
-    public void DeleteTargetObj()
-    {
-        var dTargetObj = GameObject.Find("ObjectManager").GetComponent<TargetObjectManager>().Target;
-        Destroy(dTargetObj, 0f);
-    }
+    #endregion
+
 }
